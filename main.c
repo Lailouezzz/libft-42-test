@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 07:06:42 by ale-boud          #+#    #+#             */
-/*   Updated: 2023/04/12 08:50:53 by ale-boud         ###   ########.fr       */
+/*   Updated: 2023/04/12 09:04:17 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,30 @@ void	ft_to_test(void)
 	ASSERT(FT_TEST(tolower, ';'));
 }
 
+void	ft_bzero_memset_test(void)
+{
+	char	buf[500];
+	size_t	k;
+
+	ft_memset(buf, 'a', sizeof(buf));
+	k = 0;
+	while (k < sizeof(buf))
+	{
+		ASSERT(buf[k] == 'a');
+		++k;
+	}
+	ft_bzero(buf, sizeof(buf));
+	k = 0;
+	while (k < sizeof(buf))
+	{
+		ASSERT(buf[k] == '\0');
+		++k;
+	}
+}
+
 int	main(void)
 {
 	EXEC_TEST(ft_to_test, "toupper/tolower");
-	return (0);
+	EXEC_TEST(ft_bzero_memset_test, "bzero/memset");
+	return (EXIT_SUCCESS);
 }
