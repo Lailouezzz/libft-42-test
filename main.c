@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 07:06:42 by ale-boud          #+#    #+#             */
-/*   Updated: 2023/04/12 10:46:24 by ale-boud         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:31:32 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,36 @@ void	ft_strnstr_test(void)
 	ASSERT(FT_TEST(strnstr, little, big, 25));
 }
 
+void	ft_strjoin_test(void)
+{
+	char	buf1[500];
+	char	buf2[500];
+	char	*buf3;
+
+	strrand(buf1, 50);
+	strrand(buf2, 50);
+	buf3 = ft_strjoin(buf1, buf2);
+	ASSERT(strncmp(buf1, buf3, strlen(buf1)) == 0);
+	ASSERT(strncmp(buf2, buf3 + strlen(buf1), strlen(buf2)) == 0);
+	ASSERT(strlen(buf1) + strlen(buf2) == strlen(buf3));
+	free(buf3);
+}
+
+void	ft_substr_test(void)
+{
+	char	buf1[50];
+	char	*buf2;
+
+	strrand(buf1, 50);
+	if (strlen(buf1) == 0)
+		return (ft_substr_test());
+	int pos = rand() % strlen(buf1);
+	buf2 = ft_substr(buf1, pos, 50);
+	ASSERT(strstr(buf1, buf2) != NULL);
+	ASSERT(strcmp(buf1 + pos, buf2) == 0);
+	free(buf2);
+}
+
 int	main(int argc, char **argv)
 {
 	int n = 1;
@@ -229,6 +259,8 @@ int	main(int argc, char **argv)
 	EXEC_TEST(ft_strlen_test, "strlen", n);
 	EXEC_TEST(ft_strlcpy_strlcat_test, "strlcpy/strlcat", n);
 	EXEC_TEST(ft_strchr_strrchr_test, "strchr/strrchr", n);
-	EXEC_TEST(ft_strnstr_test, "strnstr", n);
+	EXEC_TEST(ft_strnstr_test, "strnstr(ft_strncmp)", n);
+	EXEC_TEST(ft_strjoin_test, "strjoin", n);
+	EXEC_TEST(ft_substr_test, "substr", n);
 	return (EXIT_SUCCESS);
 }
