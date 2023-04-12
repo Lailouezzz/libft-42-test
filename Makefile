@@ -6,7 +6,7 @@
 #    By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/06 23:28:51 by ale-boud          #+#    #+#              #
-#    Updated: 2023/04/12 08:19:22 by ale-boud         ###   ########.fr        #
+#    Updated: 2023/04/12 21:23:56 by ale-boud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ all: $(NAME)
 mostlyclean:
 	$(call rmsg,Removing object folder ($(OBJDIR)))
 	$(call qcmd,$(RM) -r $(OBJDIR))
-	$(call qcmd,(cd libft && $(MAKE) $@))
+	$(call qcmd,(cd libft && $(MAKE) clean))
 
 mclean: mostlyclean
 
