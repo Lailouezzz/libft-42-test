@@ -6,7 +6,7 @@
 #    By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/06 23:28:51 by ale-boud          #+#    #+#              #
-#    Updated: 2023/04/12 07:21:26 by ale-boud         ###   ########.fr        #
+#    Updated: 2023/04/12 08:19:22 by ale-boud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ libft/libft.a:
 	$(call qcmd,(cd libft && $(MAKE) all))
 
 $(NAME): $(OBJS) libft/libft.a
-	$(call bcmd,ld,$^,$(LD) $(LDFLAGS) -o $@ $^)
+	$(call bcmd,ld,$^,$(LD) $(LDFLAGS) -o $@ $^ $(LDLIB))
 
 $(OBJDIR)/%.o: %.c
 	$(call qcmd,$(MKDIR) -p $@D)
