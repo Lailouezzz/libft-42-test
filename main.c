@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 07:06:42 by ale-boud          #+#    #+#             */
-/*   Updated: 2023/04/12 12:31:32 by ale-boud         ###   ########.fr       */
+/*   Updated: 2023/04/12 21:10:15 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,9 +237,50 @@ void	ft_substr_test(void)
 	free(buf2);
 }
 
+void	ft_calloc_test(void)
+{
+	char	*ptr;
+	size_t	k;
+
+	ptr = ft_calloc(10, 2);
+	k = 0;
+	while (k < 20)
+	{
+		ASSERT(ptr[k] == 0);
+		++k;
+	}
+	free(ptr);
+}
+
+void	ft_atoi_test(void)
+{
+	ASSERT(FT_TEST(atoi, "+42"));
+	ASSERT(FT_TEST(atoi, "+0"));
+	ASSERT(FT_TEST(atoi, "-0"));
+	ASSERT(FT_TEST(atoi, "--+-42"));
+	ASSERT(FT_TEST(atoi, "    -525"));
+	ASSERT(FT_TEST(atoi, "gsfdjbgnsdf gfdjgdsf498 gjudfhng856"));
+	ASSERT(FT_TEST(atoi, "\t+42 8"));
+	ASSERT(FT_TEST(atoi, " \n  \t+42   "));
+	ASSERT(FT_TEST(atoi, "2147483647"));
+	ASSERT(FT_TEST(atoi, "-2147483648"));
+}
+
+void	ft_strdup_test(void)
+{
+	char	buf[15];
+	char	*p;
+
+	strrand(buf, 15);
+	p = ft_strdup(buf);
+	ASSERT(strlen(buf) == strlen(p));
+	ASSERT(strcmp(buf, p) == 0);
+	free(p);
+}
+
 int	main(int argc, char **argv)
 {
-	int n = 1;
+	int n = 100;
 	if (argc >= 2)
 		n = atoi(argv[1]);
 	if (argc >= 3)
@@ -262,5 +303,8 @@ int	main(int argc, char **argv)
 	EXEC_TEST(ft_strnstr_test, "strnstr(ft_strncmp)", n);
 	EXEC_TEST(ft_strjoin_test, "strjoin", n);
 	EXEC_TEST(ft_substr_test, "substr", n);
+	EXEC_TEST(ft_calloc_test, "calloc", n);
+	EXEC_TEST(ft_atoi_test, "atoi", 1);
+	EXEC_TEST(ft_strdup_test, "strdup", n);
 	return (EXIT_SUCCESS);
 }
