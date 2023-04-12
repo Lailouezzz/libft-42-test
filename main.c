@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 07:06:42 by ale-boud          #+#    #+#             */
-/*   Updated: 2023/04/12 09:49:40 by ale-boud         ###   ########.fr       */
+/*   Updated: 2023/04/12 10:46:24 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 						|| (ft_##f(__VA_ARGS__) > 0 && f(__VA_ARGS__) > 0) \
 						|| (ft_##f(__VA_ARGS__) < 0 && f(__VA_ARGS__) < 0)
 #define ASSERT(b) if (!(b)) { failure(); }
-#define EXEC_TEST(f, id) printf("[test]\t" id "... ");f();printf("Ok\n");
+#define EXEC_TEST(f, id, time) {printf("[test]\t" id "... ");int k = time;while(k--!=0){f();}printf("Ok\n");}
 
 /* Utils */
 
@@ -39,6 +39,19 @@ void	memrand(void *p, size_t n)
 	{
 		--n;
 		((char *)p)[n] = rand() % 0xFF;
+	}
+}
+
+void	strrand(char *p, size_t n)
+{
+	if (n == 0)
+		return ;
+	n = rand() % n;
+	p[n] = '\0';
+	while (n != 0)
+	{
+		--n;
+		((char *)p)[n] = (rand() % ('z' - 'A')) + 'A';
 	}
 }
 
@@ -69,7 +82,7 @@ void	ft_bzero_memset_test(void)
 	char	buf[500];
 	size_t	k;
 
-	ft_memset(buf, 'a', sizeof(buf));
+	ASSERT(ft_memset(buf, 'a', sizeof(buf)) == buf);
 	k = 0;
 	while (k < sizeof(buf))
 	{
@@ -91,7 +104,7 @@ void	ft_memcpy_test(void)
 	size_t	k;
 
 	memset(buf, 'z', 250);
-	ft_memcpy(buf + 250, buf, 250);
+	ASSERT(ft_memcpy(buf + 250, buf, 250) == buf + 250);
 	k = 0;
 	while (k < sizeof(buf))
 	{
@@ -147,14 +160,75 @@ void	ft_memchr_test(void)
 	ASSERT(FT_TEST(memchr, buf, 'a', 256));
 }
 
-int	main(void)
+void	ft_strlen_test(void)
 {
-	srand(time(NULL));
-	EXEC_TEST(ft_to_test, "toupper/tolower");
-	EXEC_TEST(ft_bzero_memset_test, "bzero/memset");
-	EXEC_TEST(ft_memcpy_test, "memcpy");
-	EXEC_TEST(ft_memmove_test, "memmove");
-	EXEC_TEST(ft_memcmp_test, "memcmp");
-	EXEC_TEST(ft_memchr_test, "memchr");
+	char	buf[50];
+
+	strrand(buf, 50);
+	ASSERT(FT_TEST(strlen, buf));
+}
+
+void	ft_strlcpy_strlcat_test(void)
+{
+	char	buf[30];
+	char	buf2[30];
+	char	buf3[30];
+	char	buf4[30];
+
+	strrand(buf, 15);
+	ASSERT(ft_strlcpy(buf2, buf, 10) == strlcpy(buf3, buf, 10));
+	ASSERT(strcmp(buf2, buf3) == 0);
+	strrand(buf4, 10);
+	strcpy(buf, buf4);
+	ASSERT(strlcat(buf, buf2, 20) == ft_strlcat(buf4, buf2, 20));
+	ASSERT(strcmp(buf, buf4) == 0);
+}
+
+void	ft_strchr_strrchr_test(void)
+{
+	char	buf[256];
+
+	strrand(buf, 256);
+	ASSERT(FT_TEST(strchr, buf, 'a'));
+	ASSERT(FT_TEST(strrchr, buf, 'a'));
+}
+
+void	ft_strnstr_test(void)
+{
+	char	big[100];
+	char	little[100];
+
+	strrand(big, 20);
+	strrand(little, 3);
+	ASSERT(FT_TEST(strnstr, big, little, 5));
+	ASSERT(FT_TEST(strnstr, big, little, 15));
+	ASSERT(FT_TEST(strnstr, big, little, 15));
+	ASSERT(FT_TEST(strnstr, little, little, 15));
+	ASSERT(FT_TEST(strnstr, little, big, 25));
+}
+
+int	main(int argc, char **argv)
+{
+	int n = 1;
+	if (argc >= 2)
+		n = atoi(argv[1]);
+	if (argc >= 3)
+		srand(atoi(argv[2]));
+	else
+	{
+		unsigned int	t = time(NULL);
+		printf("SEED : %u\n", t);
+		srand(t);
+	}
+	EXEC_TEST(ft_to_test, "toupper/tolower", 1);
+	EXEC_TEST(ft_bzero_memset_test, "bzero/memset", 1);
+	EXEC_TEST(ft_memcpy_test, "memcpy", 1);
+	EXEC_TEST(ft_memmove_test, "memmove", n);
+	EXEC_TEST(ft_memcmp_test, "memcmp", n);
+	EXEC_TEST(ft_memchr_test, "memchr", n);
+	EXEC_TEST(ft_strlen_test, "strlen", n);
+	EXEC_TEST(ft_strlcpy_strlcat_test, "strlcpy/strlcat", n);
+	EXEC_TEST(ft_strchr_strrchr_test, "strchr/strrchr", n);
+	EXEC_TEST(ft_strnstr_test, "strnstr", n);
 	return (EXIT_SUCCESS);
 }
