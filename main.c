@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 07:06:42 by ale-boud          #+#    #+#             */
-/*   Updated: 2023/04/13 14:51:16 by ale-boud         ###   ########.fr       */
+/*   Updated: 2023/04/13 16:33:48 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,7 @@ void	ft_strnstr_test(void)
 	ASSERT(FT_TEST(strnstr, big, little, 15));
 	ASSERT(FT_TEST(strnstr, little, little, 15));
 	ASSERT(FT_TEST(strnstr, little, big, 25));
+	ASSERT(FT_TEST(strncmp, "test\200", "test\0", 6))
 }
 
 void	ft_strjoin_test(void)
@@ -331,6 +332,9 @@ void	ft_split_test(void)
 	ASSERT(strcmp(p[0], "je suis 42      test b") == 0);
 	ASSERT(p[1] == NULL);
 	free(p[0]);
+	free(p);
+	p = ft_split("", ' ');
+	ASSERT(p[0] == NULL);
 	free(p);
 }
 
