@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 07:06:42 by ale-boud          #+#    #+#             */
-/*   Updated: 2023/04/13 16:33:48 by ale-boud         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:10:08 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,7 +364,7 @@ void	ft_itoa_test(void)
 
 int	main(int argc, char **argv)
 {
-	int n = 100;
+	int n = 1000;
 	if (argc >= 2)
 		n = atoi(argv[1]);
 	if (argc >= 3)

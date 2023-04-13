@@ -6,7 +6,7 @@
 #    By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/06 23:28:51 by ale-boud          #+#    #+#              #
-#    Updated: 2023/04/12 21:23:56 by ale-boud         ###   ########.fr        #
+#    Updated: 2023/04/13 21:44:59 by ale-boud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ include Makefile.msg Makefile.vars
 
 # Build everything
 
-all: $(NAME)
+all: $(TESTS)
 
 # Mostly clean (clean everything without the end result)
 
@@ -35,7 +35,7 @@ clean: mclean
 
 fclean: mostlyclean
 	$(call rmsg,Removing the output binary ($(NAME)))
-	$(call qcmd,$(RM) $(NAME))
+	$(call qcmd,$(RM) -r $(OUTDIR))
 	$(call qcmd,(cd libft && $(MAKE) $@))
 
 # Rebuild
@@ -51,13 +51,22 @@ re: fclean all
 libft/libft.a:
 	$(call qcmd,(cd libft && $(MAKE) all))
 
-$(NAME): $(OBJS) libft/libft.a
-	$(call bcmd,ld,$^,$(LD) $(LDFLAGS) -o $@ $^ $(LDLIB))
+define make-test-rule
+$(OUTDIR)/$1: $(OBJDIR)/$1.o
+	$(call qcmd,$(MKDIR) -p $$(@D))
+	$(call bcmd,ld,$$^,$(LD) $(LDFLAGS) -o $$@ $$^ libft/libft.a $(LDLIB))
+$1: libft/libft.a $(OUTDIR)/$1
+	$(call qcmd,$(OUTDIR)/$$@)
+endef
+$(foreach test,$(TESTS), \
+	$(eval $(call make-test-rule,$(test))))
 
-$(OBJDIR)/%.o: %.c
-	$(call qcmd,$(MKDIR) -p $@D)
-	$(call bcmd,cc,$<,$(CC) $(CFLAGS) -I. -o $@ $<)
-
-.PHONY: libft/libft.a
+define make-test-objs-rule
+$(OBJDIR)/$1.o: $(TESTDIR)/$1.c
+	$(call qcmd,$(MKDIR) -p $$(@D))
+	$(call bcmd,cc,$$<,$(CC) $(CFLAGS) -o $$@ $$^)
+endef
+$(foreach test,$(TESTS), \
+	$(eval $(call make-test-objs-rule,$(test))))
 
 -include $(DEPS)
