@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 07:06:42 by ale-boud          #+#    #+#             */
-/*   Updated: 2023/04/12 21:10:15 by ale-boud         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:51:16 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,6 +278,86 @@ void	ft_strdup_test(void)
 	free(p);
 }
 
+void	ft_strtrim_test(void)
+{
+	char	*buf1 = "   test       ";
+	char	*set1 = " ";
+	char	*buf2 = "adcbdaddcdcd";
+	char	*set23 = "abcd";
+	char	*buf3 = "abdcccdcbagerta6";
+	char	*buf4 = "";
+	char	*buf5 = "abcd";
+	char	*p;
+
+	p = ft_strtrim(buf1, set1);
+	ASSERT(strlen(p) == 4);
+	ASSERT(strcmp(p, "test") == 0);
+	free(p);
+	p = ft_strtrim(buf2, set23);
+	ASSERT(strlen(p) == 0);
+	free(p);
+	p = ft_strtrim(buf3, set23);
+	ASSERT(strlen(p) == 6);
+	ASSERT(strcmp(p, "gerta6") == 0);
+	free(p);
+	p = ft_strtrim(buf4, "");
+	ASSERT(strlen(p) == 0);
+	free(p);
+	p = ft_strtrim(buf5, "");
+	ASSERT(strlen(p) == 4);
+	free(p);
+	p = ft_strtrim("asde", "");
+	ASSERT(strcmp(p, "asde") == 0);
+	ASSERT(strlen(p) == 4);
+	free(p);
+}
+
+void	ft_split_test(void)
+{
+	char	**p;
+
+	p = ft_split("je suis a 42     a test aaaaaaabaaaa", 'a');
+	ASSERT(p[4] == NULL);
+	ASSERT(strcmp(p[0], "je suis ") == 0);
+	ASSERT(strcmp(p[1], " 42     ") == 0);
+	ASSERT(strcmp(p[2], " test ") == 0);
+	ASSERT(strcmp(p[3], "b") == 0);
+	free(p[0]);
+	free(p[1]);
+	free(p[2]);
+	free(p[3]);
+	free(p);
+	p = ft_split("aaaje suis 42      test baaaa", 'a');
+	ASSERT(strcmp(p[0], "je suis 42      test b") == 0);
+	ASSERT(p[1] == NULL);
+	free(p[0]);
+	free(p);
+}
+
+void	ft_itoa_test(void)
+{
+	char	*p;
+
+	p = ft_itoa(42);
+	ASSERT(strcmp(p, "42") == 0);
+	free(p);
+	p = ft_itoa(0);
+	ASSERT(strcmp(p, "0") == 0);
+	free(p);
+	p = ft_itoa(-1);
+	ASSERT(strcmp(p, "-1") == 0);
+	free(p);
+	p = ft_itoa(1);
+	ASSERT(strcmp(p, "1") == 0);
+	free(p);
+	p = ft_itoa(-2147483648);
+	ASSERT(strcmp(p, "-2147483648") == 0);
+	free(p);
+	p = ft_itoa(2147483647);
+	ASSERT(strcmp(p, "2147483647") == 0);
+	free(p);
+}
+
 int	main(int argc, char **argv)
 {
 	int n = 100;
@@ -306,5 +386,8 @@ int	main(int argc, char **argv)
 	EXEC_TEST(ft_calloc_test, "calloc", n);
 	EXEC_TEST(ft_atoi_test, "atoi", 1);
 	EXEC_TEST(ft_strdup_test, "strdup", n);
+	EXEC_TEST(ft_strtrim_test, "strtrim", 1);
+	EXEC_TEST(ft_split_test, "split", 1);
+	EXEC_TEST(ft_itoa_test, "itoa", 1);
 	return (EXIT_SUCCESS);
 }
