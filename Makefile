@@ -6,7 +6,7 @@
 #    By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/06 23:28:51 by ale-boud          #+#    #+#              #
-#    Updated: 2023/04/13 21:44:59 by ale-boud         ###   ########.fr        #
+#    Updated: 2023/04/14 08:16:41 by ale-boud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,3 +70,5 @@ $(foreach test,$(TESTS), \
 	$(eval $(call make-test-objs-rule,$(test))))
 
 -include $(DEPS)
+
+.PHONY: libft/libft.a

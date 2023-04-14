@@ -1,44 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero_memset_test.c                             :+:      :+:    :+:   */
+/*   ft_bzero_test.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 21:45:27 by ale-boud          #+#    #+#             */
-/*   Updated: 2023/04/13 21:52:12 by ale-boud         ###   ########.fr       */
+/*   Created: 2023/04/14 08:39:28 by ale-boud          #+#    #+#             */
+/*   Updated: 2023/04/14 08:48:03 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_test.h"
 
-void	ft_bzero_memset_test(void)
+void	ft_bzero_test(void)
 {
 	char	buf[500];
-	size_t	k;
+	int		k;
 
-	ASSERT(ft_memset(buf, 'a', sizeof(buf)) == buf, "memset ret dest");
+	memset(buf, 'z', 500);
+	ft_bzero(buf, 0);
+	FT_ASSERT(*buf == 'z', "bzero1");
+	ft_bzero(buf, 42);
 	k = 0;
-	while (k < sizeof(buf))
-	{
-		if (buf[k] != 'a')
-			break ;
+	while (k < 100 && buf[k] == 0)
 		++k;
-	}
-	ASSERT(k == sizeof(buf), "memset");
-	ft_bzero(buf, sizeof(buf));
+	FT_ASSERT(k == 42 && buf[42] == 'z', "bzero2");
+	memset(buf, 'z', 500);
+	*buf = 0;
+	ft_bzero(buf, 42);
 	k = 0;
-	while (k < sizeof(buf))
-	{
-		if (buf[k] != '\0')
-			break ;
+	while (k < 100 && buf[k] == 0)
 		++k;
-	}
-	ASSERT(k == sizeof(buf), "bzero");
+	FT_ASSERT(k == 42 && buf[42] == 'z', "bzero3");
 }
 
 int	main(void)
 {
-	EXEC_TEST(ft_bzero_memset_test, "bzero/memset");
+	EXEC_TEST(ft_bzero_test, "bzero");
 	return (0);
 }
